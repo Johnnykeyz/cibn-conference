@@ -675,7 +675,7 @@
             </div>
         </main>
 
-        <!-- Install Prompt -->
+        <!-- Install Prompt
         <div id="installPrompt" class="install-prompt">
             <button class="close-btn" onclick="closeInstallPrompt()">×</button>
             <div class="install-content">
@@ -691,7 +691,7 @@
             </div>
         </div>
 
-        <!-- iOS Instructions Modal -->
+        <!-- iOS Instructions Modal
         <div id="iosModal" class="ios-modal">
             <div class="ios-modal-content">
                 <div class="ios-modal-icon">🍎</div>
@@ -717,361 +717,51 @@
                 <button class="ios-close-btn" onclick="closeIOSModal()">Got it!</button>
             </div>
         </div>  
-    </div>
-
+    </div> -->
+        <button class="install-btn" id="install-btn">Install App</button>
     <script>
-        // Universal PWA Installation Logic
-let deferredPrompt;
-let isInstalled = false;
+ // PWA Install prompt
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
 
-// Detect browser and platform
-function detectBrowser() {
-    const userAgent = navigator.userAgent;
-    const isChrome = /Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor);
-    const isEdge = /Edg/.test(userAgent);
-    const isFirefox = /Firefox/.test(userAgent);
-    const isSafari = /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
-    const isAndroid = /Android/.test(userAgent);
-    const isIOS = /iPad|iPhone|iPod/.test(userAgent);
-    const isDesktop = !isAndroid && !isIOS;
-    
-    return {
-        isChrome,
-        isEdge,
-        isFirefox,
-        isSafari,
-        isAndroid,
-        isIOS,
-        isDesktop,
-        supportsPWA: isChrome || isEdge || (isFirefox && isAndroid),
-        userAgent
-    };
-}
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+            // Show the install button
+            installButton.style.display = 'block';
+        });
 
-// Check if app is already installed or running as PWA
-function checkInstallStatus() {
-    // Check if running as PWA (standalone mode)
-    if (window.matchMedia('(display-mode: standalone)').matches || 
-        window.navigator.standalone === true ||
-        document.referrer.includes('android-app://')) {
-        isInstalled = true;
-        return true;
-    }
-    
-    // Check localStorage for install status
-    if (localStorage.getItem('cibn-app-installed') === 'true') {
-        isInstalled = true;
-        return true;
-    }
-    
-    return false;
-}
-
-// Show browser-specific install instructions
-function showBrowserInstructions() {
-    const browser = detectBrowser();
-    let instructions = '';
-    
-    if (browser.isIOS) {
-        instructions = `📱 Install on iOS Safari:
-        
-1. Tap the Share button (⬆️) at the bottom
-2. Scroll down and tap "Add to Home Screen"
-3. Tap "Add" to install the app
-4. Find the app icon on your home screen`;
-    } else if (browser.isAndroid && browser.isChrome) {
-        instructions = `📱 Install on Android Chrome:
-        
-1. Tap the menu (⋮) in the top right
-2. Tap "Add to Home screen" or "Install app"
-3. Tap "Add" to confirm
-4. Find the app icon on your home screen`;
-    } else if (browser.isAndroid && browser.isFirefox) {
-        instructions = `📱 Install on Android Firefox:
-        
-1. Tap the menu (⋮) in the top right
-2. Tap "Add to Home screen"
-3. Tap "Add" to confirm
-4. Find the app icon on your home screen`;
-    } else if (browser.isDesktop && browser.isChrome) {
-        instructions = `💻 Install on Desktop Chrome:
-        
-1. Look for the install icon (⊕) in the address bar
-2. Click it and select "Install"
-3. Or click menu (⋮) → "Install CIBN Conference App"
-4. Find the app in your applications`;
-    } else if (browser.isDesktop && browser.isEdge) {
-        instructions = `💻 Install on Desktop Edge:
-        
-1. Look for the install icon (⊕) in the address bar
-2. Click it and select "Install"
-3. Or click menu (⋯) → "Apps" → "Install this site as an app"
-4. Find the app in your applications`;
-    } else {
-        instructions = `🌐 Manual Installation:
-        
-Your browser may support adding this site to your home screen:
-1. Look for "Add to Home Screen" in your browser menu
-2. Or bookmark this page for quick access
-3. Some browsers show an install prompt automatically`;
-    }
-    
-    // Show in a custom modal
-    showCustomInstructions(instructions);
-}
-
-// Show custom instructions modal
-function showCustomInstructions(instructions) {
-    // Create modal if it doesn't exist
-    let modal = document.getElementById('customInstructionsModal');
-    if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'customInstructionsModal';
-        modal.innerHTML = `
-            <div class="custom-modal-overlay">
-                <div class="custom-modal-content">
-                    <button class="custom-modal-close" onclick="closeCustomInstructions()">×</button>
-                    <div class="custom-modal-icon">📱</div>
-                    <div class="custom-modal-title">Install CIBN Conference App</div>
-                    <div class="custom-modal-instructions"></div>
-                    <button class="custom-modal-btn" onclick="closeCustomInstructions()">Got it!</button>
-                </div>
-            </div>
-        `;
-        
-        // Add styles
-        const style = document.createElement('style');
-        style.textContent = `
-            .custom-modal-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.8);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 10000;
-                opacity: 0;
-                transition: opacity 0.3s ease;
-            }
-            .custom-modal-overlay.show { opacity: 1; }
-            .custom-modal-content {
-                background: white;
-                border-radius: 12px;
-                padding: 24px;
-                max-width: 400px;
-                width: 90%;
-                max-height: 80vh;
-                overflow-y: auto;
-                position: relative;
-                transform: scale(0.9);
-                transition: transform 0.3s ease;
-            }
-            .custom-modal-overlay.show .custom-modal-content { transform: scale(1); }
-            .custom-modal-close {
-                position: absolute;
-                top: 12px;
-                right: 12px;
-                background: none;
-                border: none;
-                font-size: 24px;
-                cursor: pointer;
-                color: #999;
-            }
-            .custom-modal-icon {
-                font-size: 48px;
-                text-align: center;
-                margin-bottom: 16px;
-            }
-            .custom-modal-title {
-                font-size: 24px;
-                font-weight: bold;
-                text-align: center;
-                margin-bottom: 20px;
-                color: #333;
-            }
-            .custom-modal-instructions {
-                white-space: pre-line;
-                line-height: 1.6;
-                color: #666;
-                margin-bottom: 24px;
-            }
-            .custom-modal-btn {
-                width: 100%;
-                padding: 12px;
-                background: #007bff;
-                color: white;
-                border: none;
-                border-radius: 6px;
-                font-size: 16px;
-                cursor: pointer;
-            }
-            .custom-modal-btn:hover {
-                background: #0056b3;
-            }
-        `;
-        document.head.appendChild(style);
-        document.body.appendChild(modal);
-    }
-    
-    // Update instructions and show
-    modal.querySelector('.custom-modal-instructions').textContent = instructions;
-    modal.classList.add('show');
-}
-
-// Close custom instructions
-function closeCustomInstructions() {
-    const modal = document.getElementById('customInstructionsModal');
-    if (modal) {
-        modal.classList.remove('show');
-    }
-}
-
-// Show/hide install prompt based on context
-function updateInstallButton() {
-    const installPrompt = document.getElementById('installPrompt');
-    
-    if (isInstalled || checkInstallStatus()) {
-        if (installPrompt) {
-            installPrompt.classList.remove('show');
-        }
-    }
-}
-
-// Show install prompt
-function showInstallPrompt() {
-    if (isInstalled || checkInstallStatus()) {
-        return;
-    }
-    
-    const installPrompt = document.getElementById('installPrompt');
-    if (installPrompt) {
-        setTimeout(() => {
-            installPrompt.classList.add('show');
-        }, 3000);
-    }
-}
-
-// Close install prompt
-function closeInstallPrompt() {
-    const installPrompt = document.getElementById('installPrompt');
-    if (installPrompt) {
-        installPrompt.classList.remove('show');
-    }
-}
-
-// Main install function - now works universally
-async function installApp() {
-    const browser = detectBrowser();
-    
-    // If we have a deferred prompt, use it
-    if (deferredPrompt) {
-        try {
-            const result = await deferredPrompt.prompt();
-            
-            if (result.outcome === 'accepted') {
-                localStorage.setItem('cibn-app-installed', 'true');
-                isInstalled = true;
-                updateInstallButton();
-                closeInstallPrompt();
-                alert('App installed successfully!');
-            }
-        } catch (error) {
-            console.error('Installation error:', error);
-            showBrowserInstructions();
-        }
-        deferredPrompt = null;
-        return;
-    }
-    
-    // Check if already installed
-    if (checkInstallStatus()) {
-        alert('App is already installed!');
-        return;
-    }
-    
-    // Show browser-specific instructions
-    showBrowserInstructions();
-}
-
-// Show iOS instructions (keeping original function for compatibility)
-function showIOSInstructions() {
-    showBrowserInstructions();
-}
-
-// Close iOS modal (keeping for compatibility)
-function closeIOSModal() {
-    const iosModal = document.getElementById('iosModal');
-    if (iosModal) {
-        iosModal.classList.remove('show');
-    }
-    closeCustomInstructions();
-}
-
-// Service Worker Registration
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', async () => {
-        try {
-            const registration = await navigator.serviceWorker.register('service-worker.js');
-            console.log('Service Worker registered successfully');
-        } catch (error) {
-            console.log('Service Worker registration failed:', error);
-        }
-    });
-}
-
-// Listen for install prompt
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    
-    if (!checkInstallStatus()) {
-        showInstallPrompt();
-    }
-});
-
-// Listen for app installed
-window.addEventListener('appinstalled', () => {
-    localStorage.setItem('cibn-app-installed', 'true');
-    isInstalled = true;
-    closeInstallPrompt();
-    console.log('App installed successfully!');
-});
-
-// Navigation handler
-function handleNavigation(element) {
-    element.classList.add('loading');
-    setTimeout(() => {
-        element.classList.remove('loading');
-        const page = element.getAttribute('href').replace('.html', '');
-        alert(`Navigating to ${page.charAt(0).toUpperCase() + page.slice(1)} page...`);
-    }, 1000);
-    return false;
-}
-
-// Initialize app
-document.addEventListener('DOMContentLoaded', function() {
-    // Check install status on load
-    checkInstallStatus();
-
-    // Add animations to nav items
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach((item, index) => {
-        item.style.animationDelay = `${index * 0.1}s`;
-        item.style.animation = 'fadeInUp 0.6s ease forwards';
+        installButton.addEventListener('click', () => {
+            // Hide the install button
+            installButton.style.display = 'none';
+            // Show the install prompt
+            deferredPrompt.prompt();
+            // Wait for the user to respond to the prompt
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                } else {
+                    console.log('User dismissed the install prompt');
+                }
+                deferredPrompt = null;
+            });
+        });
     });
 
-    // Show install prompt for web users only
-    if (!isInstalled) {
-        showInstallPrompt();
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                })
+                .catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
     }
-    
-    // Log browser info for debugging
-    const browser = detectBrowser();
-    console.log('Browser detected:', browser);
-});
 
         function showSection(sectionId) {
             // Hide header and home section (icons)
