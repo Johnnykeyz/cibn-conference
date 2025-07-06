@@ -2,13 +2,12 @@
   "name": "CIBN Conference 2025",
   "short_name": "CIBN 2025",
   "description": "Official Progressive Web App for CIBN Conference 2025 - Connecting Industry Leaders & Innovators",
-  "start_url": "/",
+  "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait-primary",
   "theme_color": "#2d5a3d",
   "background_color": "#ffffff",
   "lang": "en-US",
-  "scope": "/",
   "categories": ["business", "conferences", "networking", "professional"],
   "icons": [
     {
@@ -68,41 +67,10 @@
       "form_factor": "narrow"
     },
     {
-      "src": "screenshot-desktop.png",
+      "src": "screenshots/Background.jpg",
       "sizes": "1280x720",
-      "type": "image/png",
+      "type": "image/jpg",
       "form_factor": "wide"
-    }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false,
-  "share_target": {
-    "action": "/share-target/",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url",
-      "files": [
-        {
-          "name": "files",
-          "accept": ["image/*", "text/*"]
-        }
-      ]
-    }
-  },
-  "launch_handler": {
-    "client_mode": "auto"
-  },
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-  "handle_links": "preferred",
-  "protocol_handlers": [
-    {
-      "protocol": "web+cibn",
-      "url": "/?handler=%s"
     }
   ]
 }
