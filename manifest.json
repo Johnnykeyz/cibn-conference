@@ -1,7 +1,7 @@
 {
-  "name": "CIBN Conference 2025",
-  "short_name": "CIBN 2025",
-  "description": "Official Progressive Web App for CIBN Conference 2025 - Connecting Industry Leaders & Innovators",
+  "name": "18th Annual Banking and Finance Conference",
+  "short_name": "Banking and Finance Conference",
+  "description": "Official Progressive Web App for CIBN 18th Annual Banking and Finance Conference - The New Economic Playbook: The Intersection of Banking, Policy, and Technology",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait-primary",
