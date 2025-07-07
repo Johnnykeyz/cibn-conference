@@ -39,14 +39,13 @@
             background: linear-gradient(135deg, #1e3a2e 0%, #2d5a3d 100%); */
             background: url("screenshots/conference.jpg");
             color: white;
-            padding: 20px 0;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .header-content {
             text-align: center;
             background: rgba(23, 50, 21, 0.5);
-            padding: 60px;
+            padding-top: 5px;
         }
 
         /*
@@ -60,19 +59,18 @@
             background-clip: text;
         }*/
         .logo{
-            background: linear-gradient(135deg, #357b4e 0%, #224b39 100%);
-            border-radius: 0;
-            padding: 30px;
-            border: 2px solid #ffd700;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #ffffff 0%, #aedd9ee5 100%);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 2px 8px 20px rgba(0, 0, 0, 0.99);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .conference-banner {
             background: linear-gradient(135deg, #2d5a3d 0%, #1e3a2e 100%);
-            border-radius: 15px;
             padding: 30px;
             margin: 20px 0;
-            border: 2px solid #ffd700;
+            border: 2px solid #fde452;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
@@ -83,20 +81,20 @@
         }
 
         .banner-subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
+            font-size: 1.05rem;
+            opacity: 1;
             margin-bottom: 15px;
         }
 
         .banner-date {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #ffd700;
             font-weight: 600;
         }
 
         /* Main Content */
         .main-content {
-            padding: 40px 0;
+            padding: 30px 0;
         }
 
         .section {
@@ -143,6 +141,32 @@
             overflow: hidden;
         }
 
+        #reg{
+            background: linear-gradient(135deg, #2d5a3d 0%, #1e3a2e 100%);
+            border-radius: 20px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border: 3px solid rgba(251, 249, 157, 0.4);
+            position: relative;
+            overflow: hidden;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        #reg::before {
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        #reg:hover{
+            border: 2px solid #ffd700;
+        }
+
         .icon-item::before {
             content: '';
             position: absolute;
@@ -186,6 +210,9 @@
             font-weight: 600;
             color: #2d5a3d;
             transition: color 0.3s ease;
+        }
+        #reg-label{
+            color: #ffffff;
         }
 
         .icon-item:hover .icon-label {
@@ -255,6 +282,25 @@
             display: none;
         }
 
+        .regbut {
+            flex: 1;
+            text-decoration: none;
+            background: #1e4d3b;
+            padding: 12px 12px;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .regbut:hover{
+            background: white;
+            color: #1e4d3b;
+            border: 2px solid #b8941f;
+        }
         /* Install Prompt */
         .install-prompt {
             position: fixed;
@@ -538,9 +584,9 @@
                 <img src="icons/icon-96x96.png" alt="" class="logo">
                 
                 <div class="conference-banner">
-                    <h1 class="banner-title">2025 Annual Conference</h1>
-                    <p class="banner-subtitle">Connecting Industry Leaders & Innovators</p>
-                    <div class="banner-date">August 15-17, 2025 | Adeola Hopewell, VI</div>
+                    <h1 class="banner-title">18th Annual Banking and Finance Conference</h1>
+                    <p class="banner-subtitle">The New Economic Playbook: The Intersection of Banking, Policy, and Technology</p>
+                    <div class="banner-date">September 8-10, 2025 • Congress Hall, Transcorp Hotel, Abuja</div>
                 </div>
             </div>
         </header>
@@ -554,9 +600,9 @@
                         <div class="icon">📅</div>
                         <div class="icon-label">Agenda</div>
                     </div>
-                    <div class="icon-item" onclick="showSection('speakers')">
-                        <div class="icon">🎤</div>
-                        <div class="icon-label">Speakers</div>
+                    <div class="icon-item" id="reg" onclick="showSection('register')">
+                        <div class="icon">📝</div>
+                        <div class="icon-label" id="reg-label">Register</div>
                     </div>
                     <div class="icon-item" onclick="showSection('attendees')">
                         <div class="icon">👥</div>
@@ -595,22 +641,47 @@
                 <div class="section-content">
                     <h2 class="section-title">Conference Agenda</h2>
                     <div class="section-text">
-                        <p>Explore our comprehensive 3-day agenda featuring keynote speakers, panel discussions, workshops, and networking opportunities.</p>
-                        <p><strong>Day 1:</strong> Opening Keynote & Innovation Showcase</p>
-                        <p><strong>Day 2:</strong> Technical Sessions & Industry Panels</p>
-                        <p><strong>Day 3:</strong> Workshops & Closing Ceremony</p>
+                        <p><h2>Day 1:</h2> <br/>
+                        <strong>9:00 AM - 6:00 PM</strong> Arrival & Registration <br/>
+                        <strong>6:00 PM - 9:00 PM</strong> Welcome Cocktail/Fire-side Chat for the Next Gen <br/><br/>
+                        </p>
+                        <p><h2>Day 2:</h2> <br/>
+                        <strong>10:00 AM - 12:00 PM</strong> Opening Ceremony <br/>
+                        Keynote Address: The New Economic Playbook: The Intersection Of Banking, Policy And Technology
+                        <br/>
+                        <strong>12:00 PM - 1:00 PM</strong> Lunch Break & Networking <br/>
+                        <strong>1:00 PM - 3:00 PM</strong> Business Session 1 <br/>
+                        Sub-theme: Unlocking Nigeria’s Economic Potential: The Role of the Financial Services Industry
+                        <br/>
+                        <strong>7:00 PM - 10:00 PM</strong> Conference Dinner/Gala Night <br/><br/>
+                        </p>
+                        <p><h2>Day 3:</h2> <br/>
+                        <strong>10:00 AM - 12:00 PM</strong> Business Session 2 <br/>
+                Sub-theme: Adapting to Global Shocks: Enhancing Risk Management, Compliance and Regulatory <br/> Practices for Sustainable Growth
+                        <strong>12:00 PM - 1:00 PM</strong> Lunch Break & Networking <br/>
+                        <strong>1:00 PM - 3:00 PM</strong> Business Session 3 <br/>
+                Sub-theme: Navigating the AI Revolution: Strategic for Financial Institutions <br/>
+                <strong>3:00 PM - 3:30 PM</strong> Closing Ceremony <br/>
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <!-- Speakers Section -->
-            <div id="speakers" class="section">
+            <!-- Register Section -->
+            <div id="register" class="section">
                 <button class="back-button" onclick="showHome()">← Back to Home</button>
                 <div class="section-content">
-                    <h2 class="section-title">Featured Speakers</h2>
+                    <h2 class="section-title">Register Now</h2>
                     <div class="section-text">
-                        <p>Meet our distinguished lineup of industry leaders, innovators, and thought leaders who will share their expertise and insights.</p>
-                        <p>Our speakers represent leading organizations across technology, finance, healthcare, and emerging industries.</p>
+                        <img src="screenshots/register1.png" style="max-width: 100%;">
+                        <br/>
+                        <br/>
+                        <a href="https://abfconference.cibng.org/confreg.aspx" class="regbut"> Register Now </a>
+                        <br/>
+                        
+                        <br>
+                        <img src="screenshots/register2.png" style="max-width: 100%;"> <br/><br/>
+                        <a href="https://abfconference.cibng.org/confreg.aspx" class="regbut"> Register Now </a>
                     </div>
                 </div>
             </div>
@@ -621,8 +692,8 @@
                 <div class="section-content">
                     <h2 class="section-title">Attendees</h2>
                     <div class="section-text">
-                        <p>Connect with over 1,500 professionals, executives, and industry experts attending the conference.</p>
-                        <p>Network with peers, discover new opportunities, and build lasting professional relationships.</p>
+                        <p>Connect with over 15,000 professionals, executives, industry experts, and 15+ speakers attending the conference. </p>
+                        <p>Network with peers and potential collaborators, discover new opportunities, and build lasting professional relationships.</p>
                     </div>
                 </div>
             </div>
@@ -632,10 +703,11 @@
                 <button class="back-button" onclick="showHome()">← Back to Home</button>
                 <div class="section-content">
                     <h2 class="section-title">Our Sponsors</h2>
+                    <img src="screenshots/sponsor1.png" style="max-width: 100%;">
+                    <img src="screenshots/sponsor2.png" style="max-width: 100%;">
+                    <img src="screenshots/sponsor3.png" style="max-width: 100%;">
                     <div class="section-text">
-                        <p>We're proud to partner with leading organizations that support innovation and industry advancement.</p>
-                        <p>Explore sponsorship opportunities and connect with our valued partners who make this conference possible.</p>
-                    </div>
+                     </div>
                 </div>
             </div>
 
@@ -647,7 +719,11 @@
                     <div class="section-text">
                         <p>Stay connected and share your conference experience with our community.</p>
                         <p>Follow us on LinkedIn, Twitter, and Instagram for live updates, behind-the-scenes content, and networking opportunities.</p>
-                        <p><strong>Official Hashtag:</strong> #CIBN2025</p>
+                        <p><strong>Facebook:</strong> @cibnigeria</p>
+                        <p><strong>X (Twitter):</strong> @cibnigeria</p>
+                        <p><strong>Instagram:</strong> @cibnigeria</p>
+                        <p><strong>LinkedIn:</strong> The Chartered Institute of Bankers of Nigeria – “CIBN NIGERIA” </p>
+                        <p><strong>YouTube:</strong> Official channel “CIBNIGERIA”</p>
                     </div>
                 </div>
             </div>
@@ -660,6 +736,7 @@
                     <div class="section-text">
                         <p>Find answers to common questions about registration, venue, accommodation, and conference logistics.</p>
                         <p>Can't find what you're looking for? Contact our support team for personalized assistance.</p>
+                        <p>Visit - <a href="https://abfconference.cibng.org/">abfconference.cibng.org</a></p>
                     </div>
                 </div>
             </div>
@@ -668,10 +745,11 @@
             <div id="about" class="section">
                 <button class="back-button" onclick="showHome()">← Back to Home</button>
                 <div class="section-content">
-                    <h2 class="section-title">About CIBN Conference</h2>
+                    <h2 class="section-title">About the Conference</h2>
                     <div class="section-text">
-                        <p>The CIBN Conference is the premier annual gathering for industry professionals, bringing together leaders, innovators, and visionaries to shape the future of business and technology.</p>
-                        <p>Since 2010, we've been fostering connections, driving innovation, and creating opportunities for growth and collaboration.</p>
+                        <p>The Conference is an annual event and the largest gathering of banking and finance professionals in Africa, with an estimated audience of 10,000 comprising professionals, policymakers, regulators, members of the academia, operators, and other stakeholders in the financial services industry. The objective of the Conference is to, among others, provide a veritable platform for subject experts and industry stakeholders to drive conversations and unanimously design a clear road map towards repositioning the Financial Services Industry for economic growth and stability.</p>
+                        <br/>
+                        <p>The theme of this year’s conference is <strong>“THE NEW ECONOMIC PLAYBOOK: THE INTERSECTION OF BANKING, POLICY, AND TECHNOLOGY”</strong>. The choice of the theme is occasioned by the need to articulate an actionable blueprint for repositioning the Financial Service Industry as a major catalyst for economic advancement in this fast-paced technology driven era..</p>
                     </div>
                 </div>
             </div>
@@ -682,8 +760,9 @@
                 <div class="section-content">
                     <h2 class="section-title">Photo Gallery</h2>
                     <div class="section-text">
-                        <p>Explore highlights from previous conferences, including keynote moments, networking events, and exhibition showcases.</p>
-                        <p>See the energy and excitement that makes CIBN Conference a must-attend event for industry professionals.</p>
+                        <p>Explore pictures from previous conference.</p>
+                        <br>
+                        <a href="https://abfconference.cibng.org/Default.aspx#gallery" class="regbut"> View Gallery </a>
                     </div>
                 </div>
             </div>
@@ -695,9 +774,9 @@
                     <h2 class="section-title">Contact Us</h2>
                     <div class="section-text">
                         <p>Get in touch with our team for registration assistance, sponsorship opportunities, or general inquiries.</p>
-                        <p><strong>Email:</strong> info@cibnconference.com</p>
-                        <p><strong>Phone:</strong> +1 (555) 123-4567</p>
-                        <p><strong>Address:</strong> Plot 19, Adeola Hopewell, VI, Lagos state</p>
+                        <p><strong>Email:</strong> info@cibng.org</p>
+                        <p><strong>Phone:</strong> +234 803 616 2420</p>
+                        <p><strong>Event Venue:</strong> Transcorp Hilton Hotel, Abuja, Nigeria</p>
                     </div>
                 </div>
             </div>
@@ -763,7 +842,6 @@
             });
         }
    */
-    document.addEventListener('DOMContentLoaded', function() {
         // PWA Install prompt
         let deferredPrompt;
         const installButton = document.getElementById('installButton');
@@ -792,7 +870,7 @@
                 deferredPrompt = null;
             });
         });
-   });
+
     // Register service worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
