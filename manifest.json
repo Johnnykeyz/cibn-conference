@@ -1,6 +1,6 @@
 {
-  "name": "18th Annual Banking and Finance Conference",
-  "short_name": "Banking and Finance Conference",
+  "name": "18th Annual Banking and Finance Conference App",
+  "short_name": "18th Annual Banking and Finance Conference App",
   "description": "Official Progressive Web App for CIBN 18th Annual Banking and Finance Conference - The New Economic Playbook: The Intersection of Banking, Policy, and Technology",
   "start_url": "./index.html",
   "display": "standalone",
