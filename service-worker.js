@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cibn-conference-v1';
+const CACHE_NAME = 'cibn-18th-annual-conference-v1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -10,7 +10,13 @@ const ASSETS_TO_CACHE = [
   './icons/icon-152x152.png',
   './icons/icon-192x192.png',
   './icons/icon-384x384.png',
-  './icons/icon-512x512.png'
+  './icons/icon-512x512.png',
+  './screenshots/conference.jpg',
+  './screenshots/sponsor1.png',
+  './screenshots/sponsor2.png',
+  './screenshots/sponsor3.png',
+  './screenshots/register1.png',
+  './screenshots/register2.png'
 ];
 
 // Install service worker and cache assets
