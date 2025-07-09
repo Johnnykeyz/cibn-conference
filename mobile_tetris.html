@@ -520,7 +520,14 @@
             <canvas id="tetris" width="300" height="600"></canvas>
         </div>
          
-        <div class="info-panel">
+         <div class="info-panel">
+           <!-- <div class="touch-controls">
+                <button class="touch-btn rotate" ontouchstart="game.rotatePiece()" onclick="game.rotatePiece()">↻</button>
+                <button class="touch-btn left" ontouchstart="game.move(-1)" onclick="game.move(-1)">←</button>
+                <button class="touch-btn right" ontouchstart="game.move(1)" onclick="game.move(1)">→</button>
+                <button class="touch-btn down" ontouchstart="game.drop()" onclick="game.drop()">↓</button>
+                <button class="touch-btn drop" ontouchstart="game.hardDrop()" onclick="game.hardDrop()">DROP</button>
+            </div> -->
             <div class="touch-controls">
                 <button class="touch-btn rotate"  onclick="game.rotatePiece()">↻</button>
                 <button class="touch-btn left"  onclick="game.move(-1)">←</button>
