@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>18th Annual Banking and Finance Conference App</title>
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Official Progressive Web App for CIBN Conference 2025 - The New Economic Playbook: The Intersection of Banking, Policy, and Technology">
+    <meta name="theme-color" content="#2d5a3d">
+    <link rel="shortcut icon" href="icons/icon-96x96.png" type="image/x-icon">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Original CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Section */
+        .header {
+            /*
+            background: linear-gradient(135deg, #1e3a2e 0%, #2d5a3d 100%); */
+            background: url("screenshots/conference.jpg");
+            color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            text-align: center;
+            background: rgba(23, 50, 21, 0.5);
+            padding-top: 5px;
+        }
+
+        /*
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }*/
+        .logo{
+            background: linear-gradient(135deg, #ffffff 0%, #aedd9ee5 100%);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 2px 8px 20px rgba(0, 0, 0, 0.99);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .conference-banner {
+            background: linear-gradient(135deg, #2d5a3d 0%, #1e3a2e 100%);
+            padding: 30px;
+            margin: 20px 0;
+            border: 2px solid #fde452;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .banner-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .banner-subtitle {
+            font-size: 1.05rem;
+            opacity: 1;
+            margin-bottom: 15px;
+        }
+
+        .banner-date {
+            font-size: 0.9rem;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px 0;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .home-section {
+            display: block;
+        }
+
+        .home-section.hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Icon Grid */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .icon-item {
+            background: white;
+            border-radius: 20px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #reg{
+            background: linear-gradient(135deg, #2d5a3d 0%, #1e3a2e 100%);
+            border-radius: 20px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border: 3px solid rgba(251, 249, 157, 0.4);
+            position: relative;
+            overflow: hidden;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        #reg::before {
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        #reg:hover{
+            border: 2px solid #ffd700;
+        }
+
+        .icon-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #2d5a3d 0%, #1e3a2e 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .icon-item:hover::before {
+            opacity: 0.05;
+        }
+
+        .icon-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(45, 90, 61, 0.2);
+            border-color: #ffd700;
+        }
+
+        .icon-item * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .icon-item:hover .icon {
+            transform: scale(1.1);
+        }
+
+        .icon-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2d5a3d;
+            transition: color 0.3s ease;
+        }
+        #reg-label{
+            color: #ffffff;
+        }
+
+        .icon-item:hover .icon-label {
+            color: #1e3a2e;
+        }
+
+        /* Back Button */
+        .back-button {
+            background: linear-gradient(135deg, #2d5a3d 0%, #1e3a2e 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 90, 61, 0.3);
+            border-color: #ffd700;
+        }
+
+        /* Section Content */
+        .section-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e9ecef;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #2d5a3d;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #ffd700, #2d5a3d);
+            border-radius: 2px;
+        }
+
+        .section-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Header visibility control */
+        .header.hidden {
+            display: none;
+        }
+
+        .regbut {
+            flex: 1;
+            text-decoration: none;
+            background: #1e4d3b;
+            padding: 12px 12px;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .regbut:hover{
+            background: white;
+            color: #1e4d3b;
+            border: 2px solid #b8941f;
+        }
+        /* Install Prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1e4d3b 0%, #2d6a4f 100%);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+        }
+
+        .install-prompt.show {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .install-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .install-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(212,175,55,0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .install-text {
+            flex: 1;
+        }
+
+        .install-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .install-subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .install-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .install-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .install-btn.primary {
+            background: #d4af37;
+            color: #1e4d3b;
+        }
+
+        .install-btn.primary:hover {
+            background: #b8941f;
+            transform: translateY(-2px);
+        }
+
+        .install-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .install-btn.secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0.7;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        /* iOS Instructions Modal */
+        .ios-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .ios-modal.show {
+            display: flex;
+        }
+
+        .ios-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 350px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .ios-modal-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e4d3b, #2d6a4f);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .ios-modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e4d3b;
+            margin-bottom: 16px;
+        }
+
+        .ios-instructions {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .ios-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .ios-step-number {
+            width: 24px;
+            height: 24px;
+            background: #d4af37;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .ios-close-btn {
+            background: #1e4d3b;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ios-close-btn:hover {
+            background: #2d6a4f;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .banner-title {
+                font-size: 1.5rem;
+            }
+            
+            .icon-item {
+                padding: 10px 10px;
+            }
+            
+            .icon {
+                font-size: 1.5rem;
+            }
+            
+            .icon-label {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .loading {
+            animation: pulse 2s infinite;
+        }
+        
+        /* PWA install button */
+        .install-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #093b0e;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .install-button:hover {
+            background-color: #21580d;
+        }
+        
+    </style>
+</head>
+<body>
+
+ <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <img src="icons/icon-96x96.png" alt="" class="logo">
+                
+                <div class="conference-banner">
+                    <h1 class="banner-title">18th Annual Banking and Finance Conference</h1>
+                    <p class="banner-subtitle">The New Economic Playbook: The Intersection of Banking, Policy, and Technology</p>
+                    <div class="banner-date">September 8-10, 2025 • Congress Hall, Transcorp Hotel, Abuja</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Section -->
+            <div id="home" class="section home-section active">
+                <div class="icon-grid">
+                    <div class="icon-item" onclick="showSection('agenda')">
+                        <div class="icon">📅</div>
+                        <div class="icon-label">Agenda</div>
+                    </div>
+                    <!-- Speakers -->
+            <div class="icon-item"  onclick="showSection('speakers')">
+                <div class="icon">🎤</div>
+                <div class="icon-label" id="speakers-label">Speakers</div>
+            </div>
+
+                    <!-- Exhibitors -->
+            <div class="icon-item" onclick="showSection('exhibitors')">
+                <div class="icon">🧳</div>
+                <div class="icon-label" id="exhibitors-label">Exhibitors</div>
+            </div>
+
+                    <!-- Challenge -->
+            <div class="icon-item" onclick="showSection('challenge')">
+                <div class="icon">🧩</div>
+                <div class="icon-label" id="challenge-label">Challenge</div>
+            </div>
+
+            <!-- Register -->
+                    <div class="icon-item" id="reg" onclick="showSection('register')">
+                        <div class="icon">📝</div>
+                        <div class="icon-label" id="reg-label">Register</div>
+                    </div>
+                    <div class="icon-item" onclick="showSection('attendees')">
+                        <div class="icon">👥</div>
+                        <div class="icon-label">Attendees</div>
+                    </div>
+                    <div class="icon-item" onclick="showSection('sponsors')">
+                        <div class="icon">🏢</div>
+                        <div class="icon-label">Sponsors</div>
+                    </div>
+                    <div class="icon-item" onclick="showSection('social')">
+                        <div class="icon">📱</div>
+                        <div class="icon-label">Social Media</div>
+                    </div>
+                    <div class="icon-item" onclick="showSection('faqs')">
+                        <div class="icon">❓</div>
+                        <div class="icon-label">FAQs</div>
+                    </div>
+                    <div class="icon-item" onclick="showSection('about')">
+                        <div class="icon">ℹ️</div>
+                        <div class="icon-label">About</div>
+                    </div>
+                    <div class="icon-item" onclick="showSection('gallery')">
+                        <div class="icon">🖼️</div>
+                        <div class="icon-label">Gallery</div>
+                    </div>
+                    <div class="icon-item" onclick="showSection('contact')">
+                        <div class="icon">📞</div>
+                        <div class="icon-label">Contact</div>
+                    </div>
+                    <div class="icon-item" onclick="">
+                    </div>
+                    <div class="icon-item" onclick="window.location.href='get_leaderboard.php'">
+                        <div class="icon">🏆</div>
+                        <div class="icon-label">Leaderboard</div>
+                    </div>
+                    <div class="icon-item" onclick="">
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Agenda Section -->
+            <div id="agenda" class="section">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="section-content">
+                    <h2 class="section-title">Conference Agenda</h2>
+                    <div class="section-text">
+                        <p><h2>Day 1:</h2> <br/>
+                        <strong>9:00 AM - 6:00 PM</strong> Arrival & Registration <br/>
+                        <strong>6:00 PM - 9:00 PM</strong> Welcome Cocktail/Fire-side Chat for the Next Gen <br/><br/>
+                        </p>
+                        <p><h2>Day 2:</h2> <br/>
+                        <strong>10:00 AM - 12:00 PM</strong> Opening Ceremony <br/>
+                        Keynote Address: The New Economic Playbook: The Intersection Of Banking, Policy And Technology
+                        <br/>
+                        <strong>12:00 PM - 1:00 PM</strong> Lunch Break & Networking <br/>
+                        <strong>1:00 PM - 3:00 PM</strong> Business Session 1 <br/>
+                        Sub-theme: Unlocking Nigeria’s Economic Potential: The Role of the Financial Services Industry
+                        <br/>
+                        <strong>7:00 PM - 10:00 PM</strong> Conference Dinner/Gala Night <br/><br/>
+                        </p>
+                        <p><h2>Day 3:</h2> <br/>
+                        <strong>10:00 AM - 12:00 PM</strong> Business Session 2 <br/>
+                Sub-theme: Adapting to Global Shocks: Enhancing Risk Management, Compliance and Regulatory <br/> Practices for Sustainable Growth
+                        <strong>12:00 PM - 1:00 PM</strong> Lunch Break & Networking <br/>
+                        <strong>1:00 PM - 3:00 PM</strong> Business Session 3 <br/>
+                Sub-theme: Navigating the AI Revolution: Strategic for Financial Institutions <br/>
+                <strong>3:00 PM - 3:30 PM</strong> Closing Ceremony <br/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Speakers Section -->
+            <div id="speakers" class="section">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="section-content">
+                    <h2 class="section-title">Speakers</h2>
+                    <div class="section-text">
+                        <p>Connect with over 15,000 professionals, executives, industry experts, and 15+ speakers attending the conference. </p>
+                        <p>Network with peers and potential collaborators, discover new opportunities, and build lasting professional relationships.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exhibitors Section -->
+            <div id="exhibitors" class="section">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="section-content">
+                    <h2 class="section-title">Exhibitors</h2>
+                    <div class="section-text">
+                        <p>Connect with over 15,000 professionals, executives, industry experts, and 15+ speakers attending the conference. </p>
+                        <p>Network with peers and potential collaborators, discover new opportunities, and build lasting professional relationships.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Challenge Section -->
+            <div id="challenge" class="section">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="section-content">
+                    <h2 class="section-title">Challenge</h2>
+                    <div class="section-text">
+                        <p>Engage with others playing the fun conference challenge</p>
+                        <br>
+                        <a href="mobile_tetris.html" class="regbut"> Start Challenge </a>  </div>
+                </div>
+            </div>
+
+            <!-- Register Section -->
+            <div id="register" class="section">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="section-content">
+                    <h2 class="section-title">Register Now</h2>
+                    <div class="section-text">
+                        <img src="screenshots/register1.png" style="max-width: 100%;">
+                        <br/>
+                        <br/>
+                        <a href="https://abfconference.cibng.org/confreg.aspx" class="regbut"> Register Now </a>
+                        <br/>
+                        
+                        <br>
+                        <img src="screenshots/register2.png" style="max-width: 100%;"> <br/><br/>
+                        <a href="https://abfconference.cibng.org/confreg.aspx" class="regbut"> Register Now </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendees Section -->
+            <div id="attendees" class="section">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="section-content">
+                    <h2 class="section-title">Attendees</h2>
+                    <div class="section-text">
+                        <p>Connect with over 15,000 professionals, executives, industry experts, and 15+ speakers attending the conference. </p>
+                        <p>Network with peers and potential collaborators, discover new opportunities, and build lasting professional relationships.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sponsors Section -->
+            <div id="sponsors" class="section">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="section-content">
+                    <h2 class="section-title">Our Sponsors</h2>
+                    <img src="screenshots/sponsor1.png" style="max-width: 100%;">
+                    <img src="screenshots/sponsor2.png" style="max-width: 100%;">
+                    <img src="screenshots/sponsor3.png" style="max-width: 100%;">
+                    <div class="section-text">
+                     </div>
+                </div>
+            </div>
+
+            <!-- Social Media Section -->
+            <div id="social" class="section">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="section-content">
+                    <h2 class="section-title">Social Media</h2>
+                    <div class="section-text">
+                        <p>Stay connected and share your conference experience with our community.</p>
+                        <p>Follow us on LinkedIn, Twitter, and Instagram for live updates, behind-the-scenes content, and networking opportunities.</p>
+                        <p><strong>Facebook:</strong> @cibnigeria</p>
+                        <p><strong>X (Twitter):</strong> @cibnigeria</p>
+                        <p><strong>Instagram:</strong> @cibnigeria</p>
+                        <p><strong>LinkedIn:</strong> The Chartered Institute of Bankers of Nigeria – “CIBN NIGERIA” </p>
+                        <p><strong>YouTube:</strong> Official channel “CIBNIGERIA”</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQs Section -->
+            <div id="faqs" class="section">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="section-content">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <div class="section-text">
+                        <p>Find answers to common questions about registration, venue, accommodation, and conference logistics.</p>
+                        <p>Can't find what you're looking for? Contact our support team for personalized assistance.</p>
+                        <p>Visit - <a href="https://abfconference.cibng.org/">abfconference.cibng.org</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div id="about" class="section">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="section-content">
+                    <h2 class="section-title">About the Conference</h2>
+                    <div class="section-text">
+                        <p>The Conference is an annual event and the largest gathering of banking and finance professionals in Africa, with an estimated audience of 10,000 comprising professionals, policymakers, regulators, members of the academia, operators, and other stakeholders in the financial services industry. The objective of the Conference is to, among others, provide a veritable platform for subject experts and industry stakeholders to drive conversations and unanimously design a clear road map towards repositioning the Financial Services Industry for economic growth and stability.</p>
+                        <br/>
+                        <p>The theme of this year’s conference is <strong>“THE NEW ECONOMIC PLAYBOOK: THE INTERSECTION OF BANKING, POLICY, AND TECHNOLOGY”</strong>. The choice of the theme is occasioned by the need to articulate an actionable blueprint for repositioning the Financial Service Industry as a major catalyst for economic advancement in this fast-paced technology driven era..</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Section -->
+            <div id="gallery" class="section">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="section-content">
+                    <h2 class="section-title">Photo Gallery</h2>
+                    <div class="section-text">
+                        <p>Explore pictures from previous conference.</p>
+                        <br>
+                        <a href="https://abfconference.cibng.org/Default.aspx#gallery" class="regbut"> View Gallery </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div id="contact" class="section">
+                <button class="back-button" onclick="showHome()">← Back to Home</button>
+                <div class="section-content">
+                    <h2 class="section-title">Contact Us</h2>
+                    <div class="section-text">
+                        <p>Get in touch with our team for registration assistance, sponsorship opportunities, or general inquiries.</p>
+                        <p><strong>Email:</strong> info@cibng.org</p>
+                        <p><strong>Phone:</strong> +234 803 616 2420</p>
+                        <p><strong>Event Venue:</strong> Transcorp Hilton Hotel, Abuja, Nigeria</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+<button class="install-button" id="installButton">Install App</button>
+
+<script>
+    function showSection(sectionId) {
+            // Hide header and home section (icons)
+            document.querySelector('.header').classList.add('hidden');
+            document.getElementById('home').classList.add('hidden');
+            
+            // Hide all other sections
+            const sections = document.querySelectorAll('.section:not(#home)');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show the selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showHome() {
+            // Show header and home section (icons)
+            document.querySelector('.header').classList.remove('hidden');
+            document.getElementById('home').classList.remove('hidden');
+            
+            // Hide all other sections
+            const sections = document.querySelectorAll('.section:not(#home)');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Add loading animation to icons on hover
+        document.querySelectorAll('.icon-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.classList.add('loading');
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.classList.remove('loading');
+            });
+        });
+/*
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-w.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed');
+                    });
+            });
+        }
+   */
+        // PWA Install prompt
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+            // Show the install button
+            installButton.style.display = 'block';
+        });
+
+        installButton.addEventListener('click', () => {
+            // Hide the install button
+            installButton.style.display = 'none';
+            // Show the install prompt
+            deferredPrompt.prompt();
+            // Wait for the user to respond to the prompt
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                } else {
+                    console.log('User dismissed the install prompt');
+                }
+                deferredPrompt = null;
+            });
+        });
+
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./service-worker.js')
+                .then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                })
+                .catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+    }
+</script>
+</body>
+</html>
